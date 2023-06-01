@@ -1,8 +1,9 @@
 import random
 from collections import defaultdict
+file_path = "names.txt"
 
-def read_names(https://raw.githubusercontent.com/adinmir/Bigram-Name-Generator/main/path/to/names.txt):
-    with open(https://raw.githubusercontent.com/adinmir/Bigram-Name-Generator/main/path/to/names.txt, 'r') as file:
+def read_names(file_path):
+    with open(file_path, 'r') as file:
         names = [name.strip() for name in names.readlines()]
     return names
 
