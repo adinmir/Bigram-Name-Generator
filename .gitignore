@@ -1,9 +1,9 @@
-import names
+import random
 from collections import defaultdict
 
-def read_names('names'):
-    with open('names', type=argparse.FileType('r')) as file:
-        names = [name.strip() for name in file.readlines()]
+def read_names(https://raw.githubusercontent.com/adinmir/Bigram-Name-Generator/main/path/to/names.txt):
+    with open(https://raw.githubusercontent.com/adinmir/Bigram-Name-Generator/main/path/to/names.txt, 'r') as file:
+        names = [name.strip() for name in names.readlines()]
     return names
 
 def build_bigram_model(names):
@@ -11,14 +11,14 @@ def build_bigram_model(names):
     total_count = 0
     
     for name in names:
-        name = '^' + name + '$'  # добавляем символы начала и конца слова
+        name = '^' + name + '$'  # adding start and end symbols to the name
         for i in range(len(name) - 1):
             bigram = name[i:i+2]
             bigram_model[bigram] += 1
             total_count += 1
     
     for bigram in bigram_model:
-        bigram_model[bigram] /= total_count  # вычисляем вероятность биграммы
+        bigram_model[bigram] /= total_count  # computing the bigram probabilities
     
     return bigram_model
 
@@ -28,7 +28,9 @@ def generate_name(bigram_model):
     
     while current_bigram[-1] != '$':
         name += current_bigram[1]
-        candidates = [bigram[1] for bigram in bigram_model if bigram[0] == current_bigram[1]]
+        candidates = [bigram[1] for bigram in bigram_model if bigram.startswith(current_bigram[1])]
+        if len(candidates) == 0:
+            break
         next_letter = random.choice(candidates)
         current_bigram = current_bigram[1] + next_letter
     
@@ -39,15 +41,15 @@ def print_bigram_probabilities(bigram_model):
     for bigram, probability in bigram_model.items():
         print(f"{bigram}: {probability}")
 
-# Чтение данных из файла
+# Reading data from the file
 names = read_names("names.txt")
 
-# Построение модели биграмм
+# Building the bigram model
 bigram_model = build_bigram_model(names)
 
-# Генерация нового имени
+# Generating a new name
 new_name = generate_name(bigram_model)
 print("Generated Name:", new_name)
 
-# Вывод таблицы вероятностей биграмм
+# Printing the bigram probabilities
 print_bigram_probabilities(bigram_model)
